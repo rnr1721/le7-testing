@@ -5,11 +5,11 @@ namespace Core\Testing;
 use Psr\SimpleCache\CacheInterface;
 use Core\Cookies\CookiesArray;
 use Core\Session\SessionArray;
-use Core\Interfaces\Cookie;
+use Core\Interfaces\CookieInterface;
 use Core\Cookies\CookiesCache;
-use Core\Interfaces\CookieConfig;
+use Core\Interfaces\CookieConfigInterface;
 use Core\Cookies\CookieConfigDefault;
-use Core\Interfaces\Session;
+use Core\Interfaces\SessionInterface;
 use Core\Session\SessionCache;
 
 class Cookies
@@ -22,17 +22,17 @@ class Cookies
         $this->cache = $cache;
     }
 
-    public function getSessionArray(bool $autostart = false): Session
+    public function getSessionArray(bool $autostart = false): SessionInterface
     {
         return new SessionArray($autostart);
     }
 
-    public function getSessionCache(string $sessionId, bool $autostart = false): Session
+    public function getSessionCache(string $sessionId, bool $autostart = false): SessionInterface
     {
         return new SessionCache($sessionId, $this->cache, null, $autostart);
     }
 
-    public function getCookiesArray(?CookieConfig $config = null): Cookie
+    public function getCookiesArray(?CookieConfigInterface $config = null): CookieInterface
     {
         if (empty($config)) {
             $config = $this->getCookieConfig();
@@ -40,7 +40,7 @@ class Cookies
         return new CookiesArray($config);
     }
 
-    public function getCookiesCache(string $browserId, ?CookieConfig $config = null): Cookie
+    public function getCookiesCache(string $browserId, ?CookieConfigInterface $config = null): CookieInterface
     {
         if (empty($config)) {
             $config = $this->getCookieConfig();
@@ -48,7 +48,7 @@ class Cookies
         return new CookiesCache($config, $this->cache, $browserId);
     }
 
-    public function getCookieConfig(array $params = []): CookieConfigDefault
+    public function getCookieConfig(array $params = []): CookieConfigInterface
     {
         return new CookieConfigDefault($params);
     }

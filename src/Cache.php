@@ -2,7 +2,7 @@
 
 namespace Core\Testing;
 
-use Core\Interfaces\SCFactory;
+use Core\Interfaces\SCFactoryInterface;
 use Core\Cache\SCFactoryGeneric;
 use Psr\SimpleCache\CacheInterface;
 
@@ -28,7 +28,7 @@ class Cache
         return $factory->getMemory();
     }
 
-    public function getCacheFactory(): SCFactory
+    public function getCacheFactory(): SCFactoryInterface
     {
         return new SCFactoryGeneric();
     }

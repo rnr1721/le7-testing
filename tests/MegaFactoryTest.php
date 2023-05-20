@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-use Core\Interfaces\Cookie;
-use Core\Interfaces\CookieConfig;
+use Core\Interfaces\CookieInterface;
+use Core\Interfaces\CookieConfigInterface;
 use Core\Testing\MegaFactory;
 use Core\Testing\Server;
-use Core\Interfaces\SCFactory;
+use Core\Interfaces\SCFactoryInterface;
 use Psr\SimpleCache\CacheInterface;
 use Psr\Http\Message\ResponseFactoryInterface;
 use Psr\Http\Message\ServerRequestFactoryInterface;
@@ -53,7 +53,7 @@ class MegaFactoryTest extends PHPUnit\Framework\TestCase
         $cacheMem = $this->megaFactory->getCache()->getNullCache();
         $this->assertTrue($cacheMem instanceof CacheInterface);
         $cacheFactory = $this->megaFactory->getCache()->getCacheFactory();
-        $this->assertTrue($cacheFactory instanceof SCFactory);
+        $this->assertTrue($cacheFactory instanceof SCFactoryInterface);
         $cacheFile = $this->megaFactory->getCache()->getFileCache();
         $cacheFile->set('test', 12345);
         $this->assertEquals(12345, $cacheFile->get('test'));
@@ -62,11 +62,11 @@ class MegaFactoryTest extends PHPUnit\Framework\TestCase
     public function testCookies()
     {
         $cookieConfig = $this->megaFactory->getCookies()->getCookieConfig();
-        $this->assertTrue($cookieConfig instanceof CookieConfig);
+        $this->assertTrue($cookieConfig instanceof CookieConfigInterface);
         $cookiesArray = $this->megaFactory->getCookies()->getCookiesArray();
-        $this->assertTrue($cookiesArray instanceof Cookie);
+        $this->assertTrue($cookiesArray instanceof CookieInterface);
         $cookiesCache = $this->megaFactory->getCookies()->getCookiesCache('123');
-        $this->assertTrue($cookiesCache instanceof Cookie);
+        $this->assertTrue($cookiesCache instanceof CookieInterface);
         $cookiesCache->set('test', '777');
         $this->assertEquals('777', $cookiesCache->get('test'));
     }
